@@ -22,14 +22,20 @@ const JobCard = (props: IProps) => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
     const [current, setCurrent] = useState(1);
-    const [pageSize, setPageSize] = useState(5);
+    const [pageSize, setPageSize] = useState(10);
     const [total, setTotal] = useState(0);
     const [filter, setFilter] = useState("");
     const [sortQuery, setSortQuery] = useState("sort=-updatedAt");
     const navigate = useNavigate();
 
     useEffect(() => {
-        fetchJob();
+        // Set up interval for real-time updates (e.g., every 5 seconds)
+        const intervalId = setInterval(fetchJob, 5000);
+
+        // Clean up interval on component unmount
+        return () => clearInterval(intervalId);
+
+        //fetchJob();
     }, [current, pageSize, filter, sortQuery]);
 
     const fetchJob = async () => {
@@ -74,7 +80,7 @@ const JobCard = (props: IProps) => {
                     <Row gutter={[20, 20]}>
                         <Col span={24}>
                             <div className={isMobile ? styles["dflex-mobile"] : styles["dflex-pc"]}>
-                                <span className={styles["title"]}>Cuộc họp</span>
+                                
                                 {!showPagination &&
                                     <Link to="job">Xem tất cả</Link>
                                 }

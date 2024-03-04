@@ -49,12 +49,7 @@ const ClientJobDetailPage = (props: any) => {
                                 <div className={styles["header"]}>
                                     {jobDetail.name}
                                 </div>
-                                <div>
-                                    <button
-                                        onClick={() => setIsModalOpen(true)}
-                                        className={styles["btn-apply"]}
-                                    >Gửi tài liệu</button>
-                                </div>
+                               
                                 <Divider />
                                 <div className={styles["skills"]}>
                                     {jobDetail?.skills?.map((item, index) => {

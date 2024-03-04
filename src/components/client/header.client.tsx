@@ -8,7 +8,6 @@ import { FaReact } from 'react-icons/fa';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
-import { callLogout } from '@/config/api';
 import { setLogoutAction } from '@/redux/slice/accountSlide';
 import ManageAccount from './modal/manage.account';
 
@@ -29,66 +28,9 @@ const Header = (props: any) => {
         setCurrent(location.pathname);
     }, [location])
 
-    const items: MenuProps['items'] = [
-        {
-            label: <Link to={'/'}>Trang Chủ</Link>,
-            key: '/',
-            icon: <TwitterOutlined />,
-        },
-        {
-            label: <Link to={'/job'}>Cuộc họp</Link>,
-            key: '/job',
-            icon: <CodeOutlined />,
-        },
-        {
-            label: <Link to={'/company'}>Danh sách các đơn vị</Link>,
-            key: '/company',
-            icon: <RiseOutlined />,
-        }
-    ];
-
-
-
     const onClick: MenuProps['onClick'] = (e) => {
         setCurrent(e.key);
     };
-
-    const handleLogout = async () => {
-        const res = await callLogout();
-        if (res && res.data) {
-            dispatch(setLogoutAction({}));
-            message.success('Đăng xuất thành công');
-            navigate('/')
-        }
-    }
-
-    const itemsDropdown = [
-        {
-            label: <label
-                style={{ cursor: 'pointer' }}
-                onClick={() => setOpenManageAccount(true)}
-            >Quản lý tài khoản</label>,
-            key: 'manage-account',
-            icon: <ContactsOutlined />
-        },
-        {
-            label: <Link
-                to={"/admin"}
-            >Trang Quản Trị</Link>,
-            key: 'admin',
-            icon: <DashOutlined />
-        },
-        {
-            label: <label
-                style={{ cursor: 'pointer' }}
-                onClick={() => handleLogout()}
-            >Đăng xuất</label>,
-            key: 'logout',
-            icon: <LogoutOutlined />
-        },
-    ];
-
-    const itemsMobiles = [...items, ...itemsDropdown];
 
     return (
         <>
@@ -97,40 +39,13 @@ const Header = (props: any) => {
                     {!isMobile ?
                         <div style={{ display: "flex", gap: 30 }}>
                             <div className={styles['brand']} >
-                                <FaReact onClick={() => navigate('/')} title='Hỏi Dân IT' />
+                               <img
+                                    alt="example"
+                                    src={`/logo_3.png`}
+                                />
                             </div>
                             <div className={styles['top-menu']}>
-                                <ConfigProvider
-                                    theme={{
-                                        token: {
-                                            colorPrimary: '#fff',
-                                            colorBgContainer: '#222831',
-                                            colorText: '#a7a7a7',
-                                        },
-                                    }}
-                                >
-
-                                    <Menu
-                                        // onClick={onClick}
-                                        selectedKeys={[current]}
-                                        mode="horizontal"
-                                        items={items}
-                                    />
-                                </ConfigProvider>
-                                <div className={styles['extra']}>
-                                    {isAuthenticated === false ?
-                                        <Link to={'/login'}>Đăng Nhập</Link>
-                                        :
-                                        <Dropdown menu={{ items: itemsDropdown }} trigger={['click']}>
-                                            <Space style={{ cursor: "pointer" }}>
-                                                <span>Welcome {user?.name}</span>
-                                                <Avatar> {user?.name?.substring(0, 2)?.toUpperCase()} </Avatar>
-                                            </Space>
-                                        </Dropdown>
-                                    }
-
-                                </div>
-
+                              <span> DANH SÁCH ĐIỂM DANH VNFACE BẮC GIANG</span>
                             </div>
                         </div>
                         :
@@ -141,18 +56,7 @@ const Header = (props: any) => {
                     }
                 </div>
             </div>
-            <Drawer title="Chức năng"
-                placement="right"
-                onClose={() => setOpenMobileMenu(false)}
-                open={openMobileMenu}
-            >
-                <Menu
-                    onClick={onClick}
-                    selectedKeys={[current]}
-                    mode="vertical"
-                    items={itemsMobiles}
-                />
-            </Drawer>
+           
             <ManageAccount
                 open={openMangeAccount}
                 onClose={setOpenManageAccount}
